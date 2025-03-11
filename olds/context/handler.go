@@ -1,4 +1,4 @@
-package gweb
+package context
 
 import (
 	"net/http"
@@ -17,18 +17,18 @@ func New() *Engine {
 	return &Engine{router: newRouter()}
 }
 
-func (engine *Engine) combWithMethod(method string, pattern string, handler HandlerFunc) {
-	engine.router.comb(method, pattern, handler)
+func (engine *Engine) addRoute(method string, pattern string, handler HandlerFunc) {
+	engine.router.addRoute(method, pattern, handler)
 }
 
 // GET defines the method to add GET request
 func (engine *Engine) GET(pattern string, handler HandlerFunc) {
-	engine.combWithMethod("GET", pattern, handler)
+	engine.addRoute("GET", pattern, handler)
 }
 
 // POST defines the method to add POST request
 func (engine *Engine) POST(pattern string, handler HandlerFunc) {
-	engine.combWithMethod("POST", pattern, handler)
+	engine.addRoute("POST", pattern, handler)
 }
 
 // Run defines the method to start a http server

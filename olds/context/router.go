@@ -1,4 +1,4 @@
-package gweb
+package context
 
 import (
 	"net/http"
@@ -13,7 +13,7 @@ func newRouter() *router {
 }
 
 // add fun -> router
-func (r *router) comb(method string, pattern string, handler HandlerFunc) {
+func (r *router) addRoute(method string, pattern string, handler HandlerFunc) {
 	key := method + "-" + pattern
 	r.handlers[key] = handler
 }
@@ -23,6 +23,6 @@ func (r *router) handle(c *Context) {
 	if handler, ok := r.handlers[key]; ok {
 		handler(c)
 	} else {
-		c.SetText(http.StatusNotFound, "404 NOT FOUND: %s\n", c.Path)
+		c.SendTextResponse(http.StatusNotFound, "404 NOT FOUND: %s\n", c.Path)
 	}
 }

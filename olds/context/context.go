@@ -1,4 +1,4 @@
-package gweb
+package context
 
 import (
 	"encoding/json"
@@ -30,7 +30,7 @@ func newContext(w http.ResponseWriter, req *http.Request) *Context {
 }
 
 // postman req: body
-func (c *Context) GetBodyForm(key string) string {
+func (c *Context) GetFormValue(key string) string {
 	return c.Req.FormValue(key)
 }
 
@@ -39,7 +39,7 @@ func (c *Context) GetQueryParam(key string) string {
 	return c.Req.URL.Query().Get(key)
 }
 
-func (c *Context) SetStatus(code int) {
+func (c *Context) SetStatusCode(code int) {
 	c.StatusCode = code
 	c.Writer.WriteHeader(code)
 }
@@ -49,29 +49,26 @@ func (c *Context) SetHeader(key string, value string) {
 	c.Writer.Header().Set(key, value)
 }
 
-func (c *Context) SetText(code int, format string, values ...interface{}) {
+func (c *Context) SendTextResponse(code int, format string, values ...interface{}) {
 	c.SetHeader("Content-Type", "text")
-	c.SetStatus(code)
+	c.SetStatusCode(code)
 	c.Writer.Write([]byte(fmt.Sprintf(format, values...)))
 }
 
-func (c *Context) SetJSON(code int, obj interface{}) {
+func (c *Context) SendJSONResponse(code int, obj interface{}) {
 	c.SetHeader("Content-Type", "json")
-	c.SetStatus(code)
+	c.SetStatusCode(code)
+
 	encoder := json.NewEncoder(c.Writer)
 	if err := encoder.Encode(obj); err != nil {
 		http.Error(c.Writer, err.Error(), 500)
 	}
 }
 
-//func (c *Context) SetData(code int, data []byte) {
-//	c.SetStatus(code)
-//	c.Writer.Write(data)
-//}
-
-func (c *Context) SetHTML(code int, html string) {
+func (c *Context) SendHTMLResponse(code int, html string) {
 	c.SetHeader("Content-Type", "html")
-	c.SetStatus(code)
+	c.SetStatusCode(code)
+
 	c.Writer.Write([]byte(html))
 }
 
