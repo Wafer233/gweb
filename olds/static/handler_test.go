@@ -1,4 +1,4 @@
-package gweb
+package static
 
 import (
 	"fmt"
@@ -6,9 +6,8 @@ import (
 	"testing"
 )
 
-// test hander
 func Test_handler(t *testing.T) {
-	r := Newv1()
+	r := New()
 	r.GET("/", func(w http.ResponseWriter, req *http.Request) {
 		fmt.Fprintf(w, "URL.Path = %q\n", req.URL.Path)
 	})
