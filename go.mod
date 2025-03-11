@@ -1,3 +1,3 @@
-module https://github.com/Wafer233/gweb
+module github.com/Wafer233/gweb
 
 go 1.23
