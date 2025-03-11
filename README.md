@@ -56,6 +56,7 @@ A example using `SendHTMLResponse()`.
 Implement dynamic route parsing using a Trie tree, supporting two patterns.
 
 `:name` – Represents a parameterized segment (e.g., `/user/:name` matches `/user/alice`).
+
 `*filepath` – Matches any remaining path as a wildcard (e.g., `/static/*filepath` matches `/static/css/style.css`).
 
 A eample using `:name`
