@@ -1,31 +1,37 @@
 package middleware
 
 import (
+	"log"
 	"net/http"
 	"testing"
+	"time"
 )
 
-func Test_handler(t *testing.T) {
+func onlyForGroup() HandlerFunc {
+	return func(c *Context) {
+		// Start timer
+		t := time.Now()
+		// if a server error occurred
+		c.Fail(500, "Internal Server Error")
+		// Calculate resolution time
+		log.Printf("[%d] %s in %v for group ", c.StatusCode, c.Req.RequestURI, time.Since(t))
+	}
+}
 
+func Test_middleware(t *testing.T) {
 	r := New()
 
-	r.GET("/", func(c *Context) {
+	r.UseMiddleware(Logger()) // global midlleware
+	r.GET("/hello", func(c *Context) {
 		c.SendHTMLResponse(http.StatusOK, "<h1>Hello Gee</h1>")
 	})
 
-	group := r.Group("/group")
-	group.GET("/hello", func(c *Context) {
-		// expect /group/hello?name=wafer
+	v2 := r.Group("/group")
+	v2.UseMiddleware(onlyForGroup()) // v2 group middleware
+	v2.GET("/hello/:name", func(c *Context) {
+		// expect /hello/wafer
 		c.SendTextResponse(http.StatusOK, "hello %s, you're at %s\n", c.GetQueryParam("name"), c.Path)
-	})
-	group.GET("/hello/:name", func(c *Context) {
-		// expect /group/hello/wafer
-		c.SendTextResponse(http.StatusOK, "hello %s, you're at %s\n", c.GetDynamicParam("name"), c.Path)
-	})
-	group.GET("/assets/*filepath", func(c *Context) {
-		c.SendJSONResponse(http.StatusOK, Hash{"filepath": c.GetDynamicParam("filepath")})
 	})
 
 	r.Run("localhost:8080")
-
 }

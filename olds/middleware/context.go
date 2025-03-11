@@ -23,15 +23,22 @@ type Context struct {
 
 	//add
 	Params map[string]string
+
+	// middleware
+	handlers []HandlerFunc
+	index    int
 }
 
 // constructor
+// dont forget to init!!!!!!!!!!!!!!!!!!!
 func newContext(w http.ResponseWriter, req *http.Request) *Context {
 	return &Context{
 		Writer: w,
 		Req:    req,
 		Path:   req.URL.Path,
 		Method: req.Method,
+
+		index: -1,
 	}
 }
 
@@ -86,3 +93,18 @@ func (c *Context) SendHTMLResponse(code int, html string) {
 }
 
 type Hash map[string]interface{}
+
+// 当在中间件中调用Next方法时，控制权交给了下一个中间件，直到调用到最后一个中间件，
+// 然后再从后往前，调用每个中间件在Next方法之后定义的部分。
+func (c *Context) Next() {
+	c.index++
+	s := len(c.handlers)
+	for ; c.index < s; c.index++ {
+		c.handlers[c.index](c)
+	}
+}
+
+func (c *Context) Fail(code int, err string) {
+	c.index = len(c.handlers)
+	c.SendJSONResponse(code, Hash{"message": err})
+}
