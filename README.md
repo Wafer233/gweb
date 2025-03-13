@@ -1,7 +1,7 @@
 # gweb
 
 ## Preface
-This project is a simple Go web framework based on net/http, implementing some basic functionalities similar to those in `gin`. Due to my limited capabilities, this project references another [open-source](https://geektutu.com/post/gee.html) project for guidance.
+This project is a simple Go web framework based on net/http, implementing some basic functionalities similar to those in `gin`.
 
 ## Why gweb
 As we all know, `net/http` provides fundamental web functionalities, such as listening on ports, mapping static routes, and parsing HTTP messages. However, directly using net/http in actual development can be quite cumbersome. 
@@ -96,6 +96,7 @@ Add a `default()` to use `Logger` middleware and `Recovery` middleware default
 A `recovery` middleware example in the terminal, panic and recover, print the log.
 
 ![](./img/6.png)
+
 
 
 
