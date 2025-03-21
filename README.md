@@ -56,7 +56,7 @@ func main() {
 ![](./img/1.png)
 
 
-### Contex
+### Context
 #### Get Start
 ```
 func main() {
@@ -78,16 +78,37 @@ func main() {
 2. Add a route using the `GET()` method.
 3. Send a response using `SendHTMLResponse()`.
 4. Start the web service with `Run()`.
-5. `GetFormValue()` `GetQueryParam()` `SendTextResponse()` `SendJSONResponse()` are optional
+5. `GetFormValue()` `GetQueryParam()` `SendTextResponse()` `SendJSONResponse()` are optional.
 
 #### Postman
 ![](./img/2.png)
 
 ### Dynamic Route
 
+
 #### Get start
+
+```
+func Test_handler(t *testing.T) {
+
+	r := New()
+
+	r.GET("/hello/:name", func(c *Context) {
+		// expect /hello/wafer
+		c.SendTextResponse(http.StatusOK, "hello %s, you're at %s\n", c.GetDynamicParam("name"), c.Path)
+	})
+
+	r.GET("/assets/*filepath", func(c *Context) {
+		c.SendJSONResponse(http.StatusOK, Hash{"filepath": c.GetDynamicParam("filepath")})
+	})
+
+	r.Run("localhost:8080")
+
+}
+```
 #### Explanation
 #### Postman
+![](./img/3.png)
 
 ### Group
 #### Get start

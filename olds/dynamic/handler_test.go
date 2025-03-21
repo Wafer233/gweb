@@ -16,14 +16,13 @@ func Test_handler(t *testing.T) {
 		// expect /hello?name=wafer
 		c.SendTextResponse(http.StatusOK, "hello %s, you're at %s\n", c.GetQueryParam("name"), c.Path)
 	})
-
-	r.GET("/hello/:name", func(c *Context) {
-		// expect /hello/wafer
-		c.SendTextResponse(http.StatusOK, "hello %s, you're at %s\n", c.GetDynamicParam("name"), c.Path)
+	// expect /param/:words/param
+	r.GET("/param/:words/param", func(c *Context) {
+		c.SendTextResponse(http.StatusOK, "%s", c.GetDynamicParam("words"))
 	})
-
-	r.GET("/assets/*filepath", func(c *Context) {
-		c.SendJSONResponse(http.StatusOK, Hash{"filepath": c.GetDynamicParam("filepath")})
+	// expect /wildcard/gWeb.go
+	r.GET("/wildcard/*filepath", func(c *Context) {
+		c.SendTextResponse(http.StatusOK, "filepath: %s", c.GetDynamicParam("filepath"))
 	})
 
 	r.Run("localhost:8080")

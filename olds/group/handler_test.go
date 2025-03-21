@@ -16,7 +16,7 @@ func Test_handler(t *testing.T) {
 	group := r.Group("/group")
 	group.GET("/hello", func(c *Context) {
 		// expect /group/hello?name=wafer
-		c.SendTextResponse(http.StatusOK, "hello %s, you're at %s\n", c.GetQueryParam("name"), c.Path)
+		c.SendTextResponse(http.StatusOK, "Hello, gWeb!")
 	})
 	group.GET("/hello/:name", func(c *Context) {
 		// expect /group/hello/wafer

@@ -12,8 +12,8 @@ func Test1(t *testing.T) {
 	})
 
 	// index out of range for testing Recovery()
-	r.GET("/panic", func(c *Context) {
-		names := []string{"wafer"}
+	r.GET("/recovery", func(c *Context) {
+		names := []string{"Hello, gWeb!"}
 		c.SendTextResponse(http.StatusOK, names[100])
 	})
 

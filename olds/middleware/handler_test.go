@@ -22,8 +22,8 @@ func Test_middleware(t *testing.T) {
 	r := New()
 
 	r.UseMiddleware(Logger()) // global midlleware
-	r.GET("/hello", func(c *Context) {
-		c.SendHTMLResponse(http.StatusOK, "<h1>Hello Gee</h1>")
+	r.GET("/middleware", func(c *Context) {
+		c.SendTextResponse(http.StatusOK, "Hello, gWeb!")
 	})
 
 	v2 := r.Group("/group")

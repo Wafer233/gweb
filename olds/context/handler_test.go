@@ -9,11 +9,11 @@ import (
 func Test_handler(t *testing.T) {
 	r := New()
 
-	r.GET("/", func(c *Context) {
-		c.SendHTMLResponse(http.StatusOK, "<h1> Hello Gweb </h1>")
+	r.GET("/context", func(c *Context) {
+		c.SendTextResponse(http.StatusOK, "Hello, gWeb!")
 	})
 
-	r.GET("/hello", func(c *Context) {
+	r.GET("/h", func(c *Context) {
 		// expect /hello?name=geektutu
 		c.SendTextResponse(http.StatusOK, "hello %s, you're at the path: %s \n", c.GetQueryParam("name"), c.Path)
 	})
