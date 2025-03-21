@@ -133,7 +133,10 @@ func main() {
 ### Middleware
 
 #### Get start
+<<<<<<< HEAD
 ```
+=======
+>>>>>>> 567601740b3e99a37aaeb44b38f94f14604fd631
 func main() {
 	r := gweb.New()
 	r.UseMiddleware(Logger())
@@ -142,7 +145,10 @@ func main() {
 	})
 	r.Run("localhost:8080")
 }
+<<<<<<< HEAD
 ```
+=======
+>>>>>>> 567601740b3e99a37aaeb44b38f94f14604fd631
 #### Explanation
 1. Use `New()` to create an instance of gweb.
 2. Add a middleware using the `UseMiddleware()` method.
