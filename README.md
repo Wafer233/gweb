@@ -10,7 +10,7 @@ Therefore, I have implemented several essential features, including creating a g
 
 
 ## Run gweb
-A basic example:
+Put the following code inside of an empty `.go` file.
 ```
 package main
 
@@ -29,73 +29,79 @@ func main() {
 ```
 Then visit `localhost:8080/` in your browser to see the response!
 
-## Dev Record
+## Feature
 
-### Preface
-This this the record of optimize the func of gweb, the screen is on `Postman` and `Goland`.
 
-### Static
-Simplify the web service startup process.
+### Static Route
+#### Get Start
+```
+func main() {
+	r := gweb.New()
 
-A quick start eaxmple.
+	r.GET("/", func(w http.ResponseWriter, req *http.Request) {
+		fmt.Fprintf(w, "URL.Path = %q\n", req.URL.Path)
+	})
 
-![](img/1.png)
-### Context
+	r.Run("localhost:8080")
+}
+```
+#### Explanation
+1. Use `New()` to create an instance of gweb.
+2. Add a route using the `GET()` method.
+3. Start the web service with `Run()`.
+4. Use `POST()` is optional.
 
-Extract the `router` as an independent component to facilitate future enhancements.
 
-Design a `Context` to encapsulate Request and Response, providing support for response types such as `JSON` and `HTML`.
+#### Postman
+![](./img/1.png)
 
-A example using `SendHTMLResponse()`.
 
+### Contex
+#### Get Start
+```
+func main() {
+	r := gweb.New()
+
+	r.GET("/", func(c *Context) {
+		c.SendHTMLResponse(http.StatusOK, "<h1> Hello Gweb </h1>")
+	})
+
+	r.Run("localhost:8080")
+
+}
+```
+
+
+
+#### Explanation
+1. Use `New()` to create an instance of gweb.
+2. Add a route using the `GET()` method.
+3. Send a response using `SendHTMLResponse()`.
+4. Start the web service with `Run()`.
+5. `GetFormValue()` `GetQueryParam()` `SendTextResponse()` `SendJSONResponse()` are optional
+
+#### Postman
 ![](./img/2.png)
 
+### Dynamic Route
 
-### Dynamic
-
-Implement dynamic route parsing using a Trie tree, supporting two patterns.
-
-`:name` – Represents a parameterized segment (e.g., `/user/:name` matches `/user/alice`).
-
-`*filepath` – Matches any remaining path as a wildcard (e.g., `/static/*filepath` matches `/static/css/style.css`).
-
-A eample using `:name`
-
-![](./img/3.png)
-
-
-
+#### Get start
+#### Explanation
+#### Postman
 
 ### Group
-
-Implement route group control.
-
-A eample using `Group()`
-
-![](./img/4.png)
-
-
-
-
+#### Get start
+#### Explanation
+#### Postman
 ### Middleware
-Design and implement middleware mechanism for a Web framework.
-
-Implement `Logger` middleware
-
-A `logger` middleware example in the terminal
-
-![](./img/5.png)
-
+#### Get start
+#### Explanation
+#### Postman
 
 ### Recovery
-
-Implement `Recovery` middleware
-
-Add a `default()` to use `Logger` middleware and `Recovery` middleware default
-
-A `recovery` middleware example in the terminal, panic and recover, print the log.
-
-![](./img/6.png)
+#### Get start
+#### Explanation
+#### Postman
 
 
 
